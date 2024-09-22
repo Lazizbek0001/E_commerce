@@ -13,6 +13,7 @@
         <br>
         <br>
         <br>
+        <center>
         <div class="container">
         {% if cart_products %}
             {% for product in cart_products %}
@@ -43,7 +44,7 @@
                           ${{product.price}}
         
                       {% endif %}
-                      <br><br><br>
+                      <br><br>
                       <div class="row justify-content-center">
                         <div class="col-md-4">Quantity:</div>
                             <div class="col-md-4">
@@ -76,7 +77,10 @@
               </div>
               <br>
             {% endfor %}
+            <div align="md">
             <h3>Total: ${{totals}}</h3>
+            <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
+          </div>
         {%else%}
 
               There is nothing here 
@@ -88,23 +92,15 @@
 <br><br>
         {% endif %}
         </div>
-
-
-
+        </center>
 
 
 
         <br><br><br>
 <br><br>
 <br><br>
-<br><br><br><br><br><br><br><br>
-<br><br>
-<br><br>
-<br><br><br><br><br><br><br><br>
-<br><br>
-<br><br>
-<br><br><br><br><br><br><br><br>
-<br><br><br><br><br>
+
+<br>
 
 <script>
   $(document).on('click', '.update-cart', function(e){
