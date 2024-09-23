@@ -2,7 +2,46 @@ from django.shortcuts import render, redirect
 from cart.cart import Cart
 from .forms import ShippingForm, ShippingAddress, PaymentForm
 from django.contrib import messages
+from payment.models import Order, OrderItem
+from django.contrib.auth.models import User
 # Create your views here.
+
+def process_order(request):
+    if request.POST:
+        cart = Cart(request)
+        cart_products= cart.get_prods
+        quantities = cart.get_quants
+        totals = cart.cart_total()
+        payment_form = PaymentForm(request.POST or None)
+        # Get shipping Session Data
+        my_shipping = request.session.get('my_shipping')
+        
+        # Gather Order Info
+        full_name = my_shipping['shipping_full_name']
+        email = my_shipping['email']
+        # Create shipping Address from session info
+        shipping_address = f"""{my_shipping['shipping_address1']}
+{my_shipping['shipping_address2']}
+{my_shipping['shipping_city']}
+{my_shipping['shipping_state']}
+{my_shipping['shipping_zipcode']}
+{my_shipping['shipping_country']}"""
+        amount_paid = totals
+        
+        if request.user.is_authenticated:
+            user = request.user
+            create_order = Order(user=user, full_name=full_name,email=email, shipping_address=shipping_address, amount_paid=amount_paid)
+            create_order.save()
+        else:
+            create_order = Order(full_name=full_name,email=email, shipping_address=shipping_address, amount_paid=amount_paid)
+            create_order.save()
+            messages.success(request,"Order Placed")
+            return redirect('home')
+        
+    else:
+        messages.success(request,"Access Denied")
+        return redirect('home')
+
 def billing_info(request):
     if request.POST:
         
@@ -10,6 +49,9 @@ def billing_info(request):
         cart_products= cart.get_prods
         quantities = cart.get_quants
         totals = cart.cart_total()
+        # Create session with Shipping Info
+        my_shipping = request.POST
+        request.session['myshipping'] = my_shipping
         if request.user.is_authenticated:
             # get the billing form
             billing_form = PaymentForm()
@@ -19,8 +61,6 @@ def billing_info(request):
             billing_form = PaymentForm()
             return render(request, 'payment/billing_info.html', {'cart_products':cart_products,"quantities":quantities,'totals':totals, 'shipping_info':request.POST,'billing_form':billing_form})
            
-        shipping_form = request.POST
-        return render(request, 'payment/billing_info.html', {'cart_products':cart_products,"quantities":quantities,'totals':totals,'shipping_form':shipping_form})
     else:
         messages.success(request,"Access Denied")
         return redirect('home')
