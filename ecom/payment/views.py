@@ -16,11 +16,10 @@ def process_order(request):
         payment_form = PaymentForm(request.POST or None)
         # Get shipping Session Data
         my_shipping = request.session.get('my_shipping')
-        print(my_shipping)
         
         # Gather Order Info
         full_name = my_shipping['shipping_full_name']
-        email = my_shipping['email']
+        email = my_shipping['shipping_email']
         # Create shipping Address from session info
         shipping_address = f"""{my_shipping['shipping_address1']}
 {my_shipping['shipping_address2']}
@@ -38,17 +37,17 @@ def process_order(request):
             
             order_id = create_order.pk
             # Get product id
-            for product in cart_products:
+            for product in cart_products():
                 
                 product_id = product.id
                 if product.is_sale:
                     price = product.sale_price
                 else:
-                    price - product.price
+                    price = product.price
                 for key, value in quantities().items():
                     if int(key) == product.id:
                         # create order item
-                        create_order_item = OrderItem(order_id=order_id , product= product_id, user= user, quantity= value, price=price)
+                        create_order_item = OrderItem(order_id=order_id , product_id= product_id, user= user, quantity= value, price=price)
                         create_order_item.save()
                                  
             messages.success(request,"Order Placed")
@@ -59,7 +58,7 @@ def process_order(request):
             
             order_id = create_order.pk
             # Get product id
-            for product in cart_products:
+            for product in cart_products():
                 
                 product_id = product.id
                 if product.is_sale:
@@ -69,7 +68,7 @@ def process_order(request):
                 for key, value in quantities().items():
                     if int(key) == product.id:
                         # create order item
-                        create_order_item = OrderItem(order_id=order_id , product= product_id, quantity= value, price=price)
+                        create_order_item = OrderItem(order_id=order_id , product_id= product_id, quantity= value, price=price)
                         create_order_item.save()
             
             messages.success(request,"Order Placed")
@@ -88,7 +87,7 @@ def billing_info(request):
         totals = cart.cart_total()
         # Create session with Shipping Info
         my_shipping = request.POST
-        request.session['myshipping'] = my_shipping
+        request.session['my_shipping'] = my_shipping
         if request.user.is_authenticated:
             # get the billing form
             billing_form = PaymentForm()
