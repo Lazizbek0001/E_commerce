@@ -15,6 +15,7 @@
                 <th scope="col">Price</th>
                 <th scope="col">Customer Email</th>
                 <th scope="col">Date Ordered</th>
+                <th scope="col">Shipped</th>
               </tr>
             </thead>
             {% for order in orders%}
@@ -24,6 +25,14 @@
                 <td>{{order.amount_paid}}</td>
                 <td>{{order.email}}</td>
                 <td>{{order.date_ordered}}</td>
+                <td>
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="shipping_status" value="false">
+                    <input type="hidden" name="num" value={{item.id}}>
+                    <button type="submit" class="btn btn-danger">Mark As Unshipped</button>
+                  </form>
+                </td>
               </tr>
             </tbody>
             {% endfor %}
