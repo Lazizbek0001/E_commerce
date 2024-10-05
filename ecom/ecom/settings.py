@@ -20,7 +20,8 @@ SECRET_KEY = 'django-insecure-g_rski486_nd=^wm8cp2_m(ivokjzay=r-x&-n+n@o(lnwl20v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ecommerce-production-85f6.up.railway.app','https://ecommerce-production-85f6.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['ecommerce-production-85f6.up.railway.app','https://ecommerce-production-85f6.up.railway.app']
 
 
 # Application definition
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store','cart','payment',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -43,6 +45,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'ecom.urls'
@@ -121,6 +125,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = ['static/']
+
+
+# white noise static stuff
+STATICFILES_STORAGE = 'whitenoise.storage.CompressionManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
+
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
