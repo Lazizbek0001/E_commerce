@@ -39,7 +39,7 @@ def not_shipped_dash(request):
         orders = Order.objects.filter(shipped=False)
         if request.POST:
             status = request.POST['shipping_status']
-            num =request.POST['num']
+            num =int(request.POST['num'])
 
             order =Order.objects.filter(id=num)
             now = datetime.datetime.now()
