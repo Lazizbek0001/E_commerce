@@ -7,9 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Load my environmental variables
-load_dotenv()
+# load_dotenv()
 
-DB_PASSWORD_YO = os.environ['DB_PASSWORD_YO']
+# DB_PASSWORD_YO = os.environ['DB_PASSWORD_YO']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -20,7 +20,7 @@ SECRET_KEY = 'django-insecure-g_rski486_nd=^wm8cp2_m(ivokjzay=r-x&-n+n@o(lnwl20v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ecommerce-production-85f6.up.railway.app']
+ALLOWED_HOSTS = ['ecommerce-production-85f6.up.railway.app','127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://ecommerce-production-85f6.up.railway.app']
 
 
@@ -76,14 +76,14 @@ WSGI_APPLICATION = 'ecom.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': os.environ['DB_PASSWORD_YO'],
-        'HOST': 'autorack.proxy.rlwy.net',
-        'PORT': '10428',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'railway',
+        # 'USER': 'postgres',
+        # 'PASSWORD': os.environ['DB_PASSWORD_YO'],
+        # 'HOST': 'autorack.proxy.rlwy.net',
+        # 'PORT': '10428',
         
     }
 }
