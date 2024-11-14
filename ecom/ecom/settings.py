@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store','cart','payment',
+    'seller_side',
     'whitenoise.runserver_nostatic',
 ]
 
